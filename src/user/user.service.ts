@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './user.schema';
 import { Model, isValidObjectId } from 'mongoose';
 import { Role, RoleDocument } from 'src/roles/roles.schema';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -11,13 +13,13 @@ export class UserService {
         @InjectModel(Role.name) private roleModel: Model<RoleDocument>,
     ) {}
 
-    async createUser(data: Partial<User>): Promise<User> {
-        if (data.role) {
-            const roleId = await this.resolveRole(data.role as any);
-            data.role = roleId as any;
+    async createUser(createUserDto: CreateUserDto): Promise<User> {
+        if (createUserDto.role) {
+            const roleId = await this.resolveRole(createUserDto.role as any);
+            createUserDto.role = roleId as any;
         }
 
-        const newUser = new this.userModel(data);
+        const newUser = new this.userModel(createUserDto);
         return newUser.save();
     }
 
@@ -29,7 +31,7 @@ export class UserService {
         return this.userModel.findById(id).populate('role').exec();
     }
 
-    async updateUser(id: string, data: Partial<User>): Promise<User | null> {
+    async updateUser(id: string, data: UpdateUserDto): Promise<User | null> {
         if (data.role) {
             const roleId = await this.resolveRole(data.role as any);
             data.role = roleId as any;
@@ -38,7 +40,7 @@ export class UserService {
         return this.userModel.findByIdAndUpdate(id, data, { new: true }).populate('role').exec();
     }
 
-    async patchUser(id: string, data: Partial<User>): Promise<User | null> {
+    async patchUser(id: string, data: UpdateUserDto): Promise<User | null> {
         if (data.role) {
             const roleId = await this.resolveRole(data.role as any);
             data.role = roleId as any;

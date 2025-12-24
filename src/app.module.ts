@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { RolesModule } from './roles/roles.module';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://127.0.0.1:27017/appointmentApp'), UserModule, RolesModule],
+  imports: [MongooseModule.forRoot('mongodb://127.0.0.1:27017/appointmentApp'), UserModule, RolesModule, AppointmentModule],
   controllers: [AppController],
   providers: [AppService],
 })
