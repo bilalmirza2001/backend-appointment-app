@@ -5,9 +5,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { RolesModule } from './roles/roles.module';
 import { AppointmentModule } from './appointment/appointment.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://127.0.0.1:27017/appointmentApp'), UserModule, RolesModule, AppointmentModule],
+  imports: [MongooseModule.forRoot('mongodb://127.0.0.1:27017/appointmentApp'), UserModule, RolesModule, AppointmentModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
